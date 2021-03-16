@@ -1,0 +1,41 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+<script type="text/javascript">
+  function print_result(data) {
+    console.log(data)
+    var mainContainer = document.getElementById("myData");
+    mainContainer.innerHTML=parseFloat(data['prediction']).toFixed(2)
+  }
+
+  function call_api() {
+    url = "https://reviewlution.herokuapp.com/predict"
+    url_2 = "http://127.0.0.1:8000/predict"
+    reviewtext= document.getElementById("review_text").value
+    params= new URLSearchParams({text: reviewtext})
+    complete_url = url_2 + "?" + params
+    console.log(complete_url)
+    fetch(complete_url)
+      .then(response => response.json())
+      .then(data => print_result(data))
+      .then(myData_submit.innerHTML = data);
+    }
+
+
+</script>
+
+</head>
+<body>
+  <center>
+    <br><br><br>
+<img src="../img/new_logo_png.png" height="50px">
+<br><br>
+<div class="mb-3" style="width: 300px;">
+  <textarea class="form-control" id="review_text" rows="5" name="review"></textarea>
+</div>
+<button type="submit" class="btn btn-warning" onclick="call_api()">Review it!</button><br>
+<p style="font-family:helvetica"><div id="myData"></div></p>
+</center>
+</body>
+</html>
